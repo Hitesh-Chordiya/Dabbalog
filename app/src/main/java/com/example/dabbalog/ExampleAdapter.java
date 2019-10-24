@@ -11,19 +11,38 @@ import java.util.ArrayList;
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     //6.2
     private ArrayList<ExampleItem> mExampleList;
+    private OnItemClickListener mListener;
+    public interface OnItemClickListener{
+        void onItemClick(int position);
 
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener=listener;
+    }
     //1
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
 
         public TextView textView;
 
         //2
-        public ExampleViewHolder(@NonNull View itemView) {
+        public ExampleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             //4
 
             textView = itemView.findViewById(R.id.textView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener!=null){
+                        int position=getAdapterPosition();
+                        if(position!=RecyclerView.NO_POSITION){
+                            Helper.pos=position-1;
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -39,7 +58,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         //5
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item, parent, false);
-        ExampleViewHolder exampleViewHolder = new ExampleViewHolder(view);
+        ExampleViewHolder exampleViewHolder = new ExampleViewHolder(view,mListener);
         return exampleViewHolder;
 
 

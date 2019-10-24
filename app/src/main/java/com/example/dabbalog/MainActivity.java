@@ -7,27 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-/*public class MainActivity extends AppCompatActivity {
-
-    ListView list_view;
-    @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-}*/
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<ExampleItem> exampleList;
 
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private ExampleAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -84,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                  //  Toast.makeText(MainActivity.this,Helper.pos,Toast.LENGTH_LONG);
+            Toast.makeText(MainActivity.this,"Position"+(position+1),Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void addCard(int position){
